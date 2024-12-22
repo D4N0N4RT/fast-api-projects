@@ -47,7 +47,7 @@ class JWTBearer(HTTPBearer):
                 raise HTTPException(status_code=403, detail="Invalid token or expired token.")
             return credentials.credentials
         else:
-            raise HTTPException(status_code=403, detail="Invalid authorization code.")
+            raise HTTPException(status_code=403, detail="Invalid authorization.")
 
     def verify_jwt(self, jwt_token: str) -> bool:
         is_token_valid: bool = False

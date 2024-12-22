@@ -56,7 +56,7 @@ def get_hashed_password(password):
 def verify_user(user: UserModel, db: Session):
     db_user = db.query(User).filter(User.username == user.username).first()
     if not db_user:
-        raise HTTPException(status_code=404, detail="Item not found")
+        raise HTTPException(status_code=404, detail=f"User with username {user.username} not found")
     elif not verify_password(user.password, db_user.password):
         raise HTTPException(status_code=401, detail="Wrong password, try again")
     return db_user
@@ -66,10 +66,10 @@ def get_current_user(token: str, db: Session):
     payload = security.decode_jwt(token)
     user_id: int = payload.get("user_id")
     if user_id is None:
-        raise HTTPException(status_code=403, detail="Wrong token")
+        raise HTTPException(status_code=403, detail="Wrong JWT token")
     db_user = db.query(User).filter(User.id == user_id).first()
     if db_user is None:
-        raise HTTPException(status_code=403, detail="User from token does not exist")
+        raise HTTPException(status_code=403, detail="User for current auth token does not exist")
     return db_user
 
 
@@ -77,7 +77,7 @@ def get_current_user(token: str, db: Session):
 async def create_user(user: UserModel, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(User.username == user.username).first()
     if db_user:
-        raise HTTPException(status_code=400, detail="User already exists")
+        raise HTTPException(status_code=400, detail=f"User with username {user.username} already exists")
     new_user = User(
         username=user.username,
         password=get_hashed_password(user.password)

@@ -46,5 +46,5 @@ docker run -d -p 8080:80 -v todo_data:/app/data todo_app:latest
 docker run -d -p 8080:80 -v todo_data:/app/data d4n0n4rt1st/todo-app:latest
 ```
 ```bash
-docker run -d -p 8080:80 -v shorturl_data:/app/data d4n0n4rt1st/shorturl-data:latest
+docker run -d -p 8080:80 -v shorturl_data:/app/data d4n0n4rt1st/shorturl-app:latest
 ```
